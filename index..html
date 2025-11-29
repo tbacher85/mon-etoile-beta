@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Etoile | Custom Star Maps & Moon Phase Prints</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-deep-space: #0f0f1f;
+            --color-starry-night: #1a1a2e;
+            --color-twilight: #2d2b55;
+            --color-nebula: #6a4c93;
+            --color-starlight: #f8f7ff;
+            --color-gold: #d4af37;
+            --color-soft-gold: #f4e4a9;
+            --color-mist: #a8b2c0;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-deep-space);
+            color: var(--color-starlight);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(15, 15, 31, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(106, 76, 147, 0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-starlight);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--color-gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--color-mist);
+            text-decoration: none;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-soft-gold);
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: var(--color-mist);
+            border: 1px solid rgba(106, 76, 147, 0.5);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--color-nebula);
+            color: var(--color-starlight);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--color-twilight) 0%, var(--color-deep-space) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(106, 76, 147, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--color-starlight) 0%, var(--color-soft-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lead {
+            font-size: 1.3rem;
+            color: var(--color-soft-gold);
+            margin-bottom: 2rem;
+        }
+
+        /* Product Types */
+        .product-types {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--color-soft-gold);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: linear-gradient(145deg, rgba(42, 42, 62, 0.8), rgba(26, 26, 46, 0.9));
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 1px solid rgba(106, 76, 147, 0.3);
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-nebula);
+        }
+
+        .product-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--color-nebula), var(--color-twilight));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        /* Customization Showcase */
+        .customization-showcase {
+            padding: 4rem 0;
+            background: rgba(26, 26, 46, 0.5);
+            display: none;
+        }
+
+        .customization-showcase.active {
+            display: block;
+        }
+
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .product-preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .preview-visual {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-right: 2rem;
+        }
+
+        .starry-preview { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .moon-preview { background: linear-gradient(135deg, #757575, #9e9e9e); }
+
+        .customization-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .customization-card {
+            background: linear-gradient(145deg, rgba(42, 42, 62, 0.8), rgba(26, 26, 46, 0.9));
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(106, 76, 147, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .customization-card.available {
+            cursor: pointer;
+        }
+
+        .customization-card.available:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-gold);
+        }
+
+        .customization-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-available {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+        }
+
+        .status-soon {
+            background: rgba(255, 152, 0, 0.2);
+            color: #FF9800;
+            border: 1px solid #FF9800;
+        }
+
+        .customization-title {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--color-starlight);
+        }
+
+        .customization-description {
+            color: var(--color-mist);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--color-gold);
+            margin: 1rem 0;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, var(--color-nebula), var(--color-twilight));
+            color: var(--color-starlight);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(106, 76, 147, 0.4);
+        }
+
+        .action-btn.coming-soon {
+            background: rgba(255, 152, 0, 0.3);
+            color: #FF9800;
+            cursor: not-allowed;
+        }
+
+        .back-btn {
+            background: transparent;
+            color: var(--color-soft-gold);
+            border: 1px solid var(--color-gold);
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .back-btn:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        /* Order Form */
+        .order-form {
+            background: rgba(26, 26, 46, 0.5);
+            padding: 3rem;
+            border-radius: 16px;
+            border: 1px solid rgba(106, 76, 147, 0.3);
+            max-width: 600px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .order-form.active {
+            display: block;
+        }
+
+        .order-summary {
+            background: rgba(42, 42, 62, 0.8);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(106, 76, 147, 0.3);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(106, 76, 147, 0.3);
+            color: var(--color-gold);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-mist);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(106, 76, 147, 0.5);
+            background: rgba(15, 15, 31, 0.8);
+            color: var(--color-starlight);
+            font-family: var(--font-body);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--color-nebula), var(--color-twilight));
+            color: var(--color-starlight);
+            box-shadow: 0 8px 32px rgba(106, 76, 147, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(106, 76, 147, 0.5);
+        }
+
+        /* Customization Options */
+        .customization-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .option-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .option-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-mist);
+        }
+
+        .option-select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--color-starlight);
+            font-family: var(--font-body);
+        }
+
+        /* Examples Section */
+        .examples {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .example-card {
+            background: rgba(42, 42, 62, 0.8);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(106, 76, 147, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .example-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .example-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--color-nebula), var(--color-twilight));
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 4rem 0;
+            background: rgba(26, 26, 46, 0.5);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text {
+            padding-right: 2rem;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--color-nebula), var(--color-twilight));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(42, 42, 62, 0.8);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(106, 76, 147, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-deep-space);
+            border-top: 1px solid rgba(106, 76, 147, 0.2);
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--color-soft-gold);
+            margin-bottom: 1rem;
+            font-family: var(--font-heading);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--color-mist);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-soft-gold);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(106, 76, 147, 0.2);
+            color: var(--color-mist);
+            font-size: 0.9rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Form Success Message */
+        .form-success {
+            display: none;
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .product-preview {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .preview-visual {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .customization-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-text {
+                padding-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">Mon<span>Etoile</span></a>
+            <div class="nav-links">
+                <a href="#products" data-i18n="nav.products">Products</a>
+                <a href="#about" data-i18n="nav.about">About</a>
+                <a href="#contact" data-i18n="nav.contact">Contact</a>
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="en">ENG</button>
+                    <button class="lang-btn" data-lang="hy">ՀԱՅ</button>
+                    <button class="lang-btn" data-lang="ru">РУС</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 data-i18n="hero.title">Celestial Memories for Yerevan</h1>
+            <p class="lead" data-i18n="hero.subtitle">Custom star maps and moon phase prints crafted specifically for Yerevan's night sky</p>
+            <a href="#products" class="btn btn-primary" data-i18n="hero.cta">Explore Our Products</a>
+        </div>
+    </section>
+
+    <!-- Product Types -->
+    <section class="product-types" id="products">
+        <div class="container">
+            <h2 class="section-title" data-i18n="products.title">Choose Your Celestial Memory</h2>
+            <p class="lead text-center" data-i18n="products.subtitle">Select the type of celestial artwork that captures your special moment</p>
+            
+            <div class="product-grid">
+                <div class="product-card" data-product="star-map">
+                    <div class="product-icon">🌌</div>
+                    <h3 data-i18n="products.starMap.title">Custom Star Map</h3>
+                    <p data-i18n="products.starMap.description">The exact star constellation from your special night in Yerevan</p>
+                    <div class="product-examples">
+                        <p><small data-i18n="products.starMap.perfectFor">Perfect for: Weddings, anniversaries, birthdays</small></p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-product="moon-phase">
+                    <div class="product-icon">🌙</div>
+                    <h3 data-i18n="products.moonPhase.title">Moon Phase Print</h3>
+                    <p data-i18n="products.moonPhase.description">The lunar phase from your special date, beautifully rendered</p>
+                    <div class="product-examples">
+                        <p><small data-i18n="products.moonPhase.perfectFor">Perfect for: Romantic nights, milestones, celebrations</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customization Showcase -->
+    <section class="customization-showcase" id="customization-showcase">
+        <div class="container">
+            <div class="showcase-header">
+                <h2 class="section-title" id="showcase-title" data-i18n="customization.title">Customize Your Celestial Artwork</h2>
+                <p class="lead" data-i18n="customization.subtitle">Select your preferred format and options</p>
+            </div>
+
+            <div class="product-preview">
+                <div class="preview-visual" id="product-preview-icon">🌌</div>
+                <div>
+                    <h3 id="product-preview-name">Custom Star Map</h3>
+                    <p id="product-preview-desc">The exact stars from your special moment in Yerevan</p>
+                </div>
+            </div>
+
+            <div class="customization-options">
+                <div class="option-group">
+                    <label class="option-label" for="map-date" data-i18n="customization.date">Date of Your Special Moment</label>
+                    <input type="date" id="map-date" class="option-select">
+                </div>
+                
+                <div class="option-group">
+                    <label class="option-label" for="map-location" data-i18n="customization.location">Location in Yerevan</label>
+                    <select id="map-location" class="option-select">
+                        <option value="center" data-i18n="customization.locations.center">Yerevan Center</option>
+                        <option value="cascade" data-i18n="customization.locations.cascade">Cascade Complex</option>
+                        <option value="victory-park" data-i18n="customization.locations.victoryPark">Victory Park</option>
+                        <option value="tsitsernakaberd" data-i18n="customization.locations.tsitsernakaberd">Tsitsernakaberd</option>
+                        <option value="custom" data-i18n="customization.locations.custom">Custom Location</option>
+                    </select>
+                </div>
+                
+                <div class="option-group">
+                    <label class="option-label" for="map-size" data-i18n="customization.size">Print Size</label>
+                    <select id="map-size" class="option-select">
+                        <option value="small" data-i18n="customization.sizes.small">Small (8x10") - 15,000 AMD</option>
+                        <option value="medium" data-i18n="customization.sizes.medium">Medium (12x16") - 25,000 AMD</option>
+                        <option value="large" data-i18n="customization.sizes.large">Large (16x20") - 35,000 AMD</option>
+                        <option value="xlarge" data-i18n="customization.sizes.xlarge">Extra Large (20x24") - 45,000 AMD</option>
+                    </select>
+                </div>
+                
+                <div class="option-group">
+                    <label class="option-label" for="map-frame" data-i18n="customization.frame">Frame Style</label>
+                    <select id="map-frame" class="option-select">
+                        <option value="none" data-i18n="customization.frames.none">No Frame - 0 AMD</option>
+                        <option value="black" data-i18n="customization.frames.black">Black Wood Frame - 8,000 AMD</option>
+                        <option value="white" data-i18n="customization.frames.white">White Wood Frame - 8,000 AMD</option>
+                        <option value="gold" data-i18n="customization.frames.gold">Gold Metal Frame - 12,000 AMD</option>
+                        <option value="silver" data-i18n="customization.frames.silver">Silver Metal Frame - 12,000 AMD</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="customization-grid" id="customization-grid">
+                <!-- Customization options will be populated by JavaScript -->
+            </div>
+
+            <div class="text-center">
+                <button class="back-btn" id="back-to-products" data-i18n="customization.back">← Choose Different Product</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Form -->
+    <section class="order-form" id="order-form">
+        <div class="container">
+            <h3 class="text-center" data-i18n="order.title">Complete Your Order</h3>
+            
+            <div class="form-success" id="form-success" data-i18n="order.success">
+                Thank you for your order! We will contact you within 24 hours to confirm the details.
+            </div>
+            
+            <div class="order-summary">
+                <h4 data-i18n="order.summary">Your Order Summary</h4>
+                <div class="order-item">
+                    <span id="summary-product">Custom Star Map</span>
+                    <span id="summary-product-price">25,000 AMD</span>
+                </div>
+                <div class="order-item">
+                    <span id="summary-frame">Black Wood Frame</span>
+                    <span id="summary-frame-price">8,000 AMD</span>
+                </div>
+                <div class="order-item">
+                    <span data-i18n="order.delivery">Delivery in Yerevan</span>
+                    <span>2,000 AMD</span>
+                </div>
+                <div class="order-total">
+                    <span data-i18n="order.total">Total</span>
+                    <span id="summary-total">35,000 AMD</span>
+                </div>
+            </div>
+            
+            <form id="product-order-form" action="https://formspree.io/f/mvgjylpg" method="POST">
+                <input type="hidden" name="product_type" id="form-product-type">
+                <input type="hidden" name="total_price" id="form-total-price">
+                <input type="hidden" name="size" id="form-size">
+                <input type="hidden" name="frame" id="form-frame">
+                <input type="hidden" name="date" id="form-date">
+                <input type="hidden" name="location" id="form-location">
+                
+                <div class="form-group">
+                    <label for="name" data-i18n="order.form.name">Your Full Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="Your Name">
+                </div>
+
+                <div class="form-group">
+                    <label for="email" data-i18n="order.form.email">Your Email Address *</label>
+                    <input type="email" id="email" name="email" required placeholder="you@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" data-i18n="order.form.phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+374 XX XXX XXX">
+                </div>
+
+                <div class="form-group">
+                    <label for="address" data-i18n="order.form.address">Delivery Address in Yerevan *</label>
+                    <textarea id="address" name="address" required placeholder="Your complete address in Yerevan"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="personalization" data-i18n="order.form.personalization">Personalization Text (Optional)</label>
+                    <textarea id="personalization" name="personalization" placeholder="Add names, date, or a special message to appear on your artwork"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" data-i18n="order.form.submit">Place Order</button>
+                <p class="text-center" style="margin-top: 1rem; font-size: 0.9rem; color: var(--color-mist);" data-i18n="order.form.note">
+                    We'll contact you within 24 hours to confirm your order details
+                </p>
+            </form>
+
+            <button class="back-btn" id="back-to-customization" style="width: 100%; margin-top: 1rem;" data-i18n="order.back">← Back to Customization</button>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title" data-i18n="features.title">Why Choose Mon Etoile?</h2>
+            <p class="lead text-center" data-i18n="features.subtitle">What makes our celestial artwork special</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3 data-i18n="features.local.title">Local to Yerevan</h3>
+                    <p data-i18n="features.local.description">Our star maps are specifically calibrated for Yerevan's latitude and longitude, ensuring astronomical accuracy.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 data-i18n="features.quality.title">Premium Quality</h3>
+                    <p data-i18n="features.quality.description">We use archival-quality paper and premium frames to ensure your artwork lasts for generations.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🚚</div>
+                    <h3 data-i18n="features.delivery.title">Local Delivery</h3>
+                    <p data-i18n="features.delivery.description">Free delivery within central Yerevan. We understand local preferences and delivery logistics.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💝</div>
+                    <h3 data-i18n="features.gift.title">Perfect Gift</h3>
+                    <p data-i18n="features.gift.description">A unique, personalized gift that captures a moment in time forever. Ideal for any special occasion.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title" data-i18n="about.title">About Mon Etoile</h2>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <p data-i18n="about.paragraph1">Mon Etoile was born from a passion for astronomy and a love for Yerevan's unique night sky. We believe that the stars that witnessed your special moments should be remembered forever.</p>
+                    <p data-i18n="about.paragraph2">Based in the heart of Yerevan, our team combines astronomical precision with artistic design to create personalized celestial artwork that captures the exact configuration of stars or moon phase from your most cherished moments.</p>
+                    <p data-i18n="about.paragraph3">Whether it's a wedding, anniversary, birthday, or any milestone worth remembering, we transform these moments into beautiful physical art that you can display in your home or office.</p>
+                </div>
+                
+                <div class="about-image">
+                    🌟
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="examples">
+        <div class="container">
+            <h2 class="section-title" data-i18n="examples.title">Customer Favorites</h2>
+            <p class="lead" data-i18n="examples.subtitle">See how others have captured their special moments</p>
+            
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="example-image">🌌</div>
+                    <h3 data-i18n="examples.wedding.title">Wedding Night in Yerevan</h3>
+                    <p data-i18n="examples.wedding.description">"The stars from our wedding at the Cascade - a beautiful reminder of our special day"</p>
+                    <p class="price-tag">35,000 AMD</p>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-image">🌙</div>
+                    <h3 data-i18n="examples.anniversary.title">Anniversary Moon</h3>
+                    <p data-i18n="examples.anniversary.description">"The moon phase from our 10th anniversary - displayed proudly in our living room"</p>
+                    <p class="price-tag">25,000 AMD</p>
+                </div>
+
+                <div class="example-card">
+                    <div class="example-image">✨</div>
+                    <h3 data-i18n="examples.birthday.title">Birthday Constellation</h3>
+                    <p data-i18n="examples.birthday.description">"My daughter's birth constellation - a unique gift she'll cherish forever"</p>
+                    <p class="price-tag">30,000 AMD</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="product-types" style="background: rgba(26, 26, 46, 0.5);">
+        <div class="container">
+            <h2 class="section-title" data-i18n="contact.title">Get In Touch</h2>
+            <p class="lead text-center" data-i18n="contact.subtitle">Have questions? We'd love to hear from you</p>
+            
+            <div class="contact-form">
+                <form action="https://formspree.io/f/mvgjylpg" method="POST">
+                    <div class="form-group">
+                        <label for="contact-name" data-i18n="contact.form.name">Your Name</label>
+                        <input type="text" id="contact-name" name="name" required placeholder="Your Name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-email" data-i18n="contact.form.email">Your Email *</label>
+                        <input type="email" id="contact-email" name="email" required placeholder="you@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-subject" data-i18n="contact.form.subject">Subject</label>
+                        <input type="text" id="contact-subject" name="subject" placeholder="How can we help?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact-message" data-i18n="contact.form.message">Your Message *</label>
+                        <textarea id="contact-message" name="message" required placeholder="Tell us what's on your mind..." rows="5"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" data-i18n="contact.form.submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Mon Etoile</h3>
+                    <p data-i18n="footer.description">Celestial artwork crafted for Yerevan's night sky. Transform your special moments into beautiful physical art.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 data-i18n="footer.links.title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" data-i18n="footer.links.home">Home</a></li>
+                        <li><a href="#products" data-i18n="footer.links.products">Products</a></li>
+                        <li><a href="#about" data-i18n="footer.links.about">About</a></li>
+                        <li><a href="#contact" data-i18n="footer.links.contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 data-i18n="footer.contact.title">Contact Info</h3>
+                    <ul class="footer-links">
+                        <li data-i18n="footer.contact.address">Yerevan, Armenia</li>
+                        <li>info@monetoile.am</li>
+                        <li>+374 (XX) XX-XX-XX</li>
+                        <li data-i18n="footer.contact.hours">Open 9AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 Mon Etoile. <span data-i18n="footer.copyright">All rights reserved. | Crafting celestial memories for Yerevan.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language Translations
+        const translations = {
+            en: {
+                // Navigation
+                "nav.products": "Products",
+                "nav.about": "About",
+                "nav.contact": "Contact",
+                
+                // Hero Section
+                "hero.title": "Celestial Memories for Yerevan",
+                "hero.subtitle": "Custom star maps and moon phase prints crafted specifically for Yerevan's night sky",
+                "hero.cta": "Explore Our Products",
+                
+                // Products Section
+                "products.title": "Choose Your Celestial Memory",
+                "products.subtitle": "Select the type of celestial artwork that captures your special moment",
+                "products.starMap.title": "Custom Star Map",
+                "products.starMap.description": "The exact star constellation from your special night in Yerevan",
+                "products.starMap.perfectFor": "Perfect for: Weddings, anniversaries, birthdays",
+                "products.moonPhase.title": "Moon Phase Print",
+                "products.moonPhase.description": "The lunar phase from your special date, beautifully rendered",
+                "products.moonPhase.perfectFor": "Perfect for: Romantic nights, milestones, celebrations",
+                
+                // Customization Section
+                "customization.title": "Customize Your Celestial Artwork",
+                "customization.subtitle": "Select your preferred format and options",
+                "customization.date": "Date of Your Special Moment",
+                "customization.location": "Location in Yerevan",
+                "customization.size": "Print Size",
+                "customization.frame": "Frame Style",
+                "customization.back": "← Choose Different Product",
+                
+                // Customization Options
+                "customization.locations.center": "Yerevan Center",
+                "customization.locations.cascade": "Cascade Complex",
+                "customization.locations.victoryPark": "Victory Park",
+                "customization.locations.tsitsernakaberd": "Tsitsernakaberd",
+                "customization.locations.custom": "Custom Location",
+                
+                "customization.sizes.small": "Small (8x10\") - 15,000 AMD",
+                "customization.sizes.medium": "Medium (12x16\") - 25,000 AMD",
+                "customization.sizes.large": "Large (16x20\") - 35,000 AMD",
+                "customization.sizes.xlarge": "Extra Large (20x24\") - 45,000 AMD",
+                
+                "customization.frames.none": "No Frame - 0 AMD",
+                "customization.frames.black": "Black Wood Frame - 8,000 AMD",
+                "customization.frames.white": "White Wood Frame - 8,000 AMD",
+                "customization.frames.gold": "Gold Metal Frame - 12,000 AMD",
+                "customization.frames.silver": "Silver Metal Frame - 12,000 AMD",
+                
+                // Order Section
+                "order.title": "Complete Your Order",
+                "order.success": "Thank you for your order! We will contact you within 24 hours to confirm the details.",
+                "order.summary": "Your Order Summary",
+                "order.delivery": "Delivery in Yerevan",
+                "order.total": "Total",
+                "order.back": "← Back to Customization",
+                
+                // Order Form
+                "order.form.name": "Your Full Name *",
+                "order.form.email": "Your Email Address *",
+                "order.form.phone": "Phone Number *",
+                "order.form.address": "Delivery Address in Yerevan *",
+                "order.form.personalization": "Personalization Text (Optional)",
+                "order.form.submit": "Place Order",
+                "order.form.note": "We'll contact you within 24 hours to confirm your order details",
+                
+                // Features Section
+                "features.title": "Why Choose Mon Etoile?",
+                "features.subtitle": "What makes our celestial artwork special",
+                "features.local.title": "Local to Yerevan",
+                "features.local.description": "Our star maps are specifically calibrated for Yerevan's latitude and longitude, ensuring astronomical accuracy.",
+                "features.quality.title": "Premium Quality",
+                "features.quality.description": "We use archival-quality paper and premium frames to ensure your artwork lasts for generations.",
+                "features.delivery.title": "Local Delivery",
+                "features.delivery.description": "Free delivery within central Yerevan. We understand local preferences and delivery logistics.",
+                "features.gift.title": "Perfect Gift",
+                "features.gift.description": "A unique, personalized gift that captures a moment in time forever. Ideal for any special occasion.",
+                
+                // About Section
+                "about.title": "About Mon Etoile",
+                "about.paragraph1": "Mon Etoile was born from a passion for astronomy and a love for Yerevan's unique night sky. We believe that the stars that witnessed your special moments should be remembered forever.",
+                "about.paragraph2": "Based in the heart of Yerevan, our team combines astronomical precision with artistic design to create personalized celestial artwork that captures the exact configuration of stars or moon phase from your most cherished moments.",
+                "about.paragraph3": "Whether it's a wedding, anniversary, birthday, or any milestone worth remembering, we transform these moments into beautiful physical art that you can display in your home or office.",
+                
+                // Examples Section
+                "examples.title": "Customer Favorites",
+                "examples.subtitle": "See how others have captured their special moments",
+                "examples.wedding.title": "Wedding Night in Yerevan",
+                "examples.wedding.description": "\"The stars from our wedding at the Cascade - a beautiful reminder of our special day\"",
+                "examples.anniversary.title": "Anniversary Moon",
+                "examples.anniversary.description": "\"The moon phase from our 10th anniversary - displayed proudly in our living room\"",
+                "examples.birthday.title": "Birthday Constellation",
+                "examples.birthday.description": "\"My daughter's birth constellation - a unique gift she'll cherish forever\"",
+                
+                // Contact Section
+                "contact.title": "Get In Touch",
+                "contact.subtitle": "Have questions? We'd love to hear from you",
+                "contact.form.name": "Your Name",
+                "contact.form.email": "Your Email *",
+                "contact.form.subject": "Subject",
+                "contact.form.message": "Your Message *",
+                "contact.form.submit": "Send Message",
+                
+                // Footer
+                "footer.description": "Celestial artwork crafted for Yerevan's night sky. Transform your special moments into beautiful physical art.",
+                "footer.links.title": "Quick Links",
+                "footer.links.home": "Home",
+                "footer.links.products": "Products",
+                "footer.links.about": "About",
+                "footer.links.contact": "Contact",
+                "footer.contact.title": "Contact Info",
+                "footer.contact.address": "Yerevan, Armenia",
+                "footer.contact.hours": "Open 9AM-6PM",
+                "footer.copyright": "All rights reserved. | Crafting celestial memories for Yerevan."
+            },
+            hy: {
+                // Navigation
+                "nav.products": "Ապրանքներ",
+                "nav.about": "Մեր Մասին",
+                "nav.contact": "Կապ",
+                
+                // Hero Section
+                "hero.title": "Երևանի համար երկնային հիշողություններ",
+                "hero.subtitle": "Հատուկ Երևանի գիշերային երկնքի համար ստեղծված աստղային քարտեզներ և լուսնի փուլերի տպագրություններ",
+                "hero.cta": "Դիտել Ապրանքները",
+                
+                // Products Section
+                "products.title": "Ընտրեք Ձեր Երկնային Հիշողությունը",
+                "products.subtitle": "Ընտրեք այն երկնային արվեստի տեսակը, որը կapture է անում Ձեր հատուկ պահը",
+                "products.starMap.title": "Անհատական Աստղային Քարտեզ",
+                "products.starMap.description": "Ձեր հատուկ գիշերվա ճշգրիտ աստղային համաստեղությունը Երևանում",
+                "products.starMap.perfectFor": "Հարմար է՝ հարսանիքների, տարեդարձերի, ծննդյան օրերի համար",
+                "products.moonPhase.title": "Լուսնի Փուլի Տպագրություն",
+                "products.moonPhase.description": "Ձեր հատուկ ամսաթվի լուսնի փուլը, գեղեցիկ ձևավորված",
+                "products.moonPhase.perfectFor": "Հարմար է՝ ռոմանտիկ գիշերների, կարևոր իրադարձությունների, տոնակատարությունների համար",
+                
+                // Customization Section
+                "customization.title": "Հարմարեցրեք Ձեր Երկնային Արվեստը",
+                "customization.subtitle": "Ընտրեք Ձեր նախընտրած ֆորմատը և տարբերակները",
+                "customization.date": "Ձեր Հատուկ Պահի Ամսաթիվը",
+                "customization.location": "Տեղակայությունը Երևանում",
+                "customization.size": "Տպագրության Չափը",
+                "customization.frame": "Շրջանակի Ոճը",
+                "customization.back": "← Ընտրել Այլ Ապրանք",
+                
+                // Customization Options
+                "customization.locations.center": "Երևանի Կենտրոն",
+                "customization.locations.cascade": "Կասկադ",
+                "customization.locations.victoryPark": "Հաղթանակի Այգի",
+                "customization.locations.tsitsernakaberd": "Ծիծեռնակաբերդ",
+                "customization.locations.custom": "Անհատական Տեղակայություն",
+                
+                "customization.sizes.small": "Փոքր (8x10\") - 15,000 ԴՐ",
+                "customization.sizes.medium": "Միջին (12x16\") - 25,000 ԴՐ",
+                "customization.sizes.large": "Մեծ (16x20\") - 35,000 ԴՐ",
+                "customization.sizes.xlarge": "Արտահամար (20x24\") - 45,000 ԴՐ",
+                
+                "customization.frames.none": "Առանց Շրջանակի - 0 ԴՐ",
+                "customization.frames.black": "Սև Փայտե Շրջանակ - 8,000 ԴՐ",
+                "customization.frames.white": "Սպիտակ Փայտե Շրջանակ - 8,000 ԴՐ",
+                "customization.frames.gold": "Ոսկե Մետաղյա Շրջանակ - 12,000 ԴՐ",
+                "customization.frames.silver": "Արծաթե Մետաղյա Շրջանակ - 12,000 ԴՐ",
+                
+                // Order Section
+                "order.title": "Կատարել Պատվերը",
+                "order.success": "Շնորհակալություն Ձեր պատվերի համար! Մենք կկապնվենք Ձեզ հետ 24 ժամվա ընթացքում՝ մանրամասները հաստատելու համար:",
+                "order.summary": "Ձեր Պատվերի Ամփոփումը",
+                "order.delivery": "Առաքում Երևանում",
+                "order.total": "Ընդհանուր",
+                "order.back": "← Վերադառնալ Հարմարեցմանը",
+                
+                // Order Form
+                "order.form.name": "Ձեր Ամբողջական Անունը *",
+                "order.form.email": "Ձեր Էլ. Փոստի Հասցեն *",
+                "order.form.phone": "Հեռախոսահամար *",
+                "order.form.address": "Առաքման Հասցեն Երևանում *",
+                "order.form.personalization": "Անհատականացման Տեքստ (Ընտրովի)",
+                "order.form.submit": "Կատարել Պատվեր",
+                "order.form.note": "Մենք կկապնվենք Ձեզ հետ 24 ժամվա ընթացքում՝ Ձեր պատվերի մանրամասները հաստատելու համար",
+                
+                // Features Section
+                "features.title": "Ինչու՞ Ընտրել Mon Etoile",
+                "features.subtitle": "Ինչն է դարձնում մեր երկնային արվեստը հատուկ",
+                "features.local.title": "Տեղական Երևանի համար",
+                "features.local.description": "Մեր աստղային քարտեզները հատուկ կարգավորված են Երևանի լայնության և երկայնության համար՝ ապահովելով աստղագիտական ճշգրտություն:",
+                "features.quality.title": "Բարձրորակ",
+                "features.quality.description": "Մենք օգտագործում ենք արխիվային որակի թուղթ և պրեմիում շրջանակներ՝ ապահովելու, որ Ձեր արվեստը պահպանվի սերունդների համար:",
+                "features.delivery.title": "Տեղական Առաքում",
+                "features.delivery.description": "Անվճար առաքում Երևանի կենտրոնում: Մենք հասկանում ենք տեղական նախասիրություններն և առաքման տրամաբանությունը:",
+                "features.gift.title": "Կատարյալ Նվեր",
+                "features.gift.description": "Ունիկալ, անհատականացված նվեր, որը հավերժացնում է ժամանակի մի պահ: Հարմար է ցանկացած հատուկ առիթի համար:",
+                
+                // About Section
+                "about.title": "Mon Etoile-ի Մասին",
+                "about.paragraph1": "Mon Etoile-ը ծնվել է աստղագիտության հանդեպ կիրքից և Երևանի եզակի գիշերային երկնքի հանդեպ սիրուց: Մենք հավատում ենք, որ Ձեր հատուկ պահերին ականատես եղած աստղերը պետք է հավերժ հիշվեն:",
+                "about.paragraph2": "Երևանի սրտում հիմնված, մեր թիմը համատեղում է աստղագիտական ճշգրտությունը գեղարվեստական դիզայնի հետ՝ ստեղծելու անհատականացված երկնային արվեստ, որն անդրադարձնում է աստղերի կամ լուսնի փուլի ճշգրիտ կոնֆիգուրացիան Ձեր ամենասիրելի պահերից:",
+                "about.paragraph3": "Թե դա հարսանիք է, տարեդարձ, ծննդյան օր, կամ ցանկացած կարևոր իրադարձություն, մենք վերափոխում ենք այդ պահերը գեղեցիկ ֆիզիկական արվեստի, որը կարող եք ցուցադրել Ձեր տանը կամ գրասենյակում:",
+                
+                // Examples Section
+                "examples.title": "Հաճախորդների Նախընտրությունները",
+                "examples.subtitle": "Տեսեք, թե ինչպես են ուրիշները անդրադարձրել իրենց հատուկ պահերը",
+                "examples.wedding.title": "Հարսանյակ Գիշեր Երևանում",
+                "examples.wedding.description": "\"Կասկադում մեր հարսանիքի աստղերը - գեղեցիկ հիշեցում մեր հատուկ օրվա մասին\"",
+                "examples.anniversary.title": "Տարեդարձի Լուսին",
+                "examples.anniversary.description": "\"Մեր 10-ամյակի լուսնի փուլը - հպարտությամբ ցուցադրված մեր հյուրասենյակում\"",
+                "examples.birthday.title": "Ծննդյան Աստղային Խումբ",
+                "examples.birthday.description": "\"Իմ դստեր ծննդյան աստղային խումբը - ունիկալ նվեր, որը նա կգնահի հավերժ\"",
+                
+                // Contact Section
+                "contact.title": "Կապնվել Մեզ հետ",
+                "contact.subtitle": "Հարցեր ունեք? Մենք ուրախ կլինենք լսել Ձեզ",
+                "contact.form.name": "Ձեր Անունը",
+                "contact.form.email": "Ձեր Էլ. Փոստը *",
+                "contact.form.subject": "Թեմա",
+                "contact.form.message": "Ձեր Հաղորդագրությունը *",
+                "contact.form.submit": "Ուղարկել Հաղորդագրություն",
+                
+                // Footer
+                "footer.description": "Երկնային արվեստ Երևանի գիշերային երկնքի համար: Վերափոխեք Ձեր հատուկ պահերը գեղեցիկ ֆիզիկական արվեստի:",
+                "footer.links.title": "Արագ Հղումներ",
+                "footer.links.home": "Գլխավոր",
+                "footer.links.products": "Ապրանքներ",
+                "footer.links.about": "Մեր Մասին",
+                "footer.links.contact": "Կապ",
+                "footer.contact.title": "Կոնտակտային Տվյալներ",
+                "footer.contact.address": "Երևան, Հայաստան",
+                "footer.contact.hours": "Բաց է 9:00-18:00",
+                "footer.copyright": "Բոլոր իրավունքները պաշտպանված են: | Երևանի համար երկնային հիշողությունների ստեղծում:"
+            },
+            ru: {
+                // Navigation
+                "nav.products": "Продукты",
+                "nav.about": "О Нас",
+                "nav.contact": "Контакт",
+                
+                // Hero Section
+                "hero.title": "Небесные Воспоминания для Еревана",
+                "hero.subtitle": "Индивидуальные звездные карты и отпечатки фаз луны, созданные специально для ночного неба Еревана",
+                "hero.cta": "Исследовать Продукты",
+                
+                // Products Section
+                "products.title": "Выберите Ваше Небесное Воспоминание",
+                "products.subtitle": "Выберите тип небесного искусства, который запечатлевает ваш особый момент",
+                "products.starMap.title": "Индивидуальная Звездная Карта",
+                "products.starMap.description": "Точное звездное созвездие с вашей особой ночи в Ереване",
+                "products.starMap.perfectFor": "Идеально для: свадеб, годовщин, дней рождений",
+                "products.moonPhase.title": "Отпечаток Фазы Луны",
+                "products.moonPhase.description": "Фаза луны с вашей особой даты, красиво оформленная",
+                "products.moonPhase.perfectFor": "Идеально для: романтических вечеров, важных событий, празднований",
+                
+                // Customization Section
+                "customization.title": "Настройте Ваше Небесное Искусство",
+                "customization.subtitle": "Выберите предпочтительный формат и опции",
+                "customization.date": "Дата Вашего Особого Момента",
+                "customization.location": "Местоположение в Ереване",
+                "customization.size": "Размер Печати",
+                "customization.frame": "Стиль Рамы",
+                "customization.back": "← Выбрать Другой Продукт",
+                
+                // Customization Options
+                "customization.locations.center": "Центр Еревана",
+                "customization.locations.cascade": "Каскад",
+                "customization.locations.victoryPark": "Парк Победы",
+                "customization.locations.tsitsernakaberd": "Цицернакаберд",
+                "customization.locations.custom": "Индивидуальное Местоположение",
+                
+                "customization.sizes.small": "Маленький (8x10\") - 15,000 ДРАМ",
+                "customization.sizes.medium": "Средний (12x16\") - 25,000 ДРАМ",
+                "customization.sizes.large": "Большой (16x20\") - 35,000 ДРАМ",
+                "customization.sizes.xlarge": "Очень Большой (20x24\") - 45,000 ДРАМ",
+                
+                "customization.frames.none": "Без Рамы - 0 ДРАМ",
+                "customization.frames.black": "Черная Деревянная Рама - 8,000 ДРАМ",
+                "customization.frames.white": "Белая Деревянная Рама - 8,000 ДРАМ",
+                "customization.frames.gold": "Золотая Металлическая Рама - 12,000 ДРАМ",
+                "customization.frames.silver": "Серебряная Металлическая Рама - 12,000 ДРАМ",
+                
+                // Order Section
+                "order.title": "Завершите Ваш Заказ",
+                "order.success": "Спасибо за ваш заказ! Мы свяжемся с вами в течение 24 часов для подтверждения деталей.",
+                "order.summary": "Сводка Вашего Заказа",
+                "order.delivery": "Доставка в Ереване",
+                "order.total": "Итого",
+                "order.back": "← Назад к Настройке",
+                
+                // Order Form
+                "order.form.name": "Ваше Полное Имя *",
+                "order.form.email": "Ваш Адрес Электронной Почты *",
+                "order.form.phone": "Номер Телефона *",
+                "order.form.address": "Адрес Доставки в Ереване *",
+                "order.form.personalization": "Текст Персонализации (Опционально)",
+                "order.form.submit": "Разместить Заказ",
+                "order.form.note": "Мы свяжемся с вами в течение 24 часов для подтверждения деталей вашего заказа",
+                
+                // Features Section
+                "features.title": "Почему Выбирают Mon Etoile?",
+                "features.subtitle": "Что делает наше небесное искусство особенным",
+                "features.local.title": "Локально для Еревана",
+                "features.local.description": "Наши звездные карты специально откалиброваны для широты и долготы Еревана, обеспечивая астрономическую точность.",
+                "features.quality.title": "Премиум Качество",
+                "features.quality.description": "Мы используем архивную бумагу и премиальные рамы, чтобы обеспечить сохранность вашего искусства для будущих поколений.",
+                "features.delivery.title": "Локальная Доставка",
+                "features.delivery.description": "Бесплатная доставка в центре Еревана. Мы понимаем местные предпочтения и логистику доставки.",
+                "features.gift.title": "Идеальный Подарок",
+                "features.gift.description": "Уникальный, персонализированный подарок, который запечатлевает момент времени навсегда. Идеально подходит для любого особого случая.",
+                
+                // About Section
+                "about.title": "О Mon Etoile",
+                "about.paragraph1": "Mon Etoile родился из страсти к астрономии и любви к уникальному ночному небу Еревана. Мы считаем, что звезды, которые были свидетелями ваших особых моментов, должны быть увековечены.",
+                "about.paragraph2": "Базируясь в сердце Еревана, наша команда сочетает астрономическую точность с художественным дизайном, чтобы создавать персонализированные небесные произведения искусства, которые отражают точную конфигурацию звезд или фазу луны из ваших самых дорогих моментов.",
+                "about.paragraph3": "Будь то свадьба, годовщина, день рождения или любое другое значимое событие, мы превращаем эти моменты в красивое физическое искусство, которое вы можете демонстрировать в своем доме или офисе.",
+                
+                // Examples Section
+                "examples.title": "Популярное у Клиентов",
+                "examples.subtitle": "Посмотрите, как другие запечатлели свои особые моменты",
+                "examples.wedding.title": "Свадебная Ночь в Ереване",
+                "examples.wedding.description": "\"Звезды с нашей свадьбы у Каскада - прекрасное напоминание о нашем особом дне\"",
+                "examples.anniversary.title": "Юбилейная Луна",
+                "examples.anniversary.description": "\"Фаза луны с нашей 10-й годовщины - с гордостью выставлена в нашей гостиной\"",
+                "examples.birthday.title": "Созвездие Дня Рождения",
+                "examples.birthday.description": "\"Созвездие рождения моей дочери - уникальный подарок, который она будет хранить вечно\"",
+                
+                // Contact Section
+                "contact.title": "Свяжитесь с Нами",
+                "contact.subtitle": "Есть вопросы? Мы будем рады услышать вас",
+                "contact.form.name": "Ваше Имя",
+                "contact.form.email": "Ваш Email *",
+                "contact.form.subject": "Тема",
+                "contact.form.message": "Ваше Сообщение *",
+                "contact.form.submit": "Отправить Сообщение",
+                
+                // Footer
+                "footer.description": "Небесное искусство, созданное для ночного неба Еревана. Превратите ваши особые моменты в красивое физическое искусство.",
+                "footer.links.title": "Быстрые Ссылки",
+                "footer.links.home": "Главная",
+                "footer.links.products": "Продукты",
+                "footer.links.about": "О Нас",
+                "footer.links.contact": "Контакт",
+                "footer.contact.title": "Контактная Информация",
+                "footer.contact.address": "Ереван, Армения",
+                "footer.contact.hours": "Открыто с 9:00 до 18:00",
+                "footer.copyright": "Все права защищены. | Создание небесных воспоминаний для Еревана."
+            }
+        };
+
+        // Product Data with Pricing in AMD
+        const productData = {
+            'star-map': {
+                name: {
+                    en: 'Custom Star Map',
+                    hy: 'Անհատական Աստղային Քարտեզ',
+                    ru: 'Индивидуальная Звездная Карта'
+                },
+                description: {
+                    en: 'The exact star constellation from your special night in Yerevan',
+                    hy: 'Ձեր հատուկ գիշերվա ճշգրիտ աստղային համաստեղությունը Երևանում',
+                    ru: 'Точное звездное созвездие с вашей особой ночи в Ереване'
+                },
+                icon: '🌌',
+                previewClass: 'starry-preview',
+                basePrice: 25000,
+                customizations: [
+                    {
+                        id: 'standard',
+                        name: {
+                            en: 'Standard Print',
+                            hy: 'Ստանդարտ Տպագրություն',
+                            ru: 'Стандартная Печать'
+                        },
+                        description: {
+                            en: 'High-quality matte print on premium paper',
+                            hy: 'Բարձրորակ մատիտե տպագրություն պրեմիում թղթի վրա',
+                            ru: 'Высококачественная матовая печать на премиальной бумаге'
+                        },
+                        icon: '🖼️',
+                        status: 'available',
+                        action: {
+                            en: 'Select This Option',
+                            hy: 'Ընտրել Այս Տարբերակը',
+                            ru: 'Выбрать Этот Вариант'
+                        },
+                        price: 0
+                    },
+                    {
+                        id: 'premium',
+                        name: {
+                            en: 'Premium Print',
+                            hy: 'Պրեմիում Տպագրություն',
+                            ru: 'Премиум Печать'
+                        },
+                        description: {
+                            en: 'Enhanced colors and details on archival paper',
+                            hy: 'Բարելավված գույներ և մանրամասներ արխիվային թղթի վրա',
+                            ru: 'Улучшенные цвета и детали на архивной бумаге'
+                        },
+                        icon: '⭐',
+                        status: 'available',
+                        action: {
+                            en: 'Select This Option',
+                            hy: 'Ընտրել Այս Տարբերակը',
+                            ru: 'Выбрать Этот Вариант'
+                        },
+                        price: 5000
+                    }
+                ]
+            },
+            'moon-phase': {
+                name: {
+                    en: 'Moon Phase Print',
+                    hy: 'Լուսնի Փուլի Տպագրություն',
+                    ru: 'Отпечаток Фазы Луны'
+                },
+                description: {
+                    en: 'The lunar phase from your special date, beautifully rendered',
+                    hy: 'Ձեր հատուկ ամսաթվի լուսնի փուլը, գեղեցիկ ձևավորված',
+                    ru: 'Фаза луны с вашей особой даты, красиво оформленная'
+                },
+                icon: '🌙',
+                previewClass: 'moon-preview',
+                basePrice: 20000,
+                customizations: [
+                    {
+                        id: 'standard',
+                        name: {
+                            en: 'Standard Print',
+                            hy: 'Ստանդարտ Տպագրություն',
+                            ru: 'Стандартная Печать'
+                        },
+                        description: {
+                            en: 'High-quality matte print on premium paper',
+                            hy: 'Բարձրորակ մատիտե տպագրություն պրեմիում թղթի վրա',
+                            ru: 'Высококачественная матовая печать на премиальной бумаге'
+                        },
+                        icon: '🖼️',
+                        status: 'available',
+                        action: {
+                            en: 'Select This Option',
+                            hy: 'Ընտրել Այս Տարբերակը',
+                            ru: 'Выбрать Этот Вариант'
+                        },
+                        price: 0
+                    },
+                    {
+                        id: 'premium',
+                        name: {
+                            en: 'Premium Print',
+                            hy: 'Պրեմիում Տպագրություն',
+                            ru: 'Премиум Печать'
+                        },
+                        description: {
+                            en: 'Enhanced colors and details on archival paper',
+                            hy: 'Բարելավված գույներ և մանրամասներ արխիվային թղթի վրա',
+                            ru: 'Улучшенные цвета и детали на архивной бумаге'
+                        },
+                        icon: '⭐',
+                        status: 'available',
+                        action: {
+                            en: 'Select This Option',
+                            hy: 'Ընտրել Այս Տարբերակը',
+                            ru: 'Выбрать Этот Вариант'
+                        },
+                        price: 5000
+                    }
+                ]
+            }
+        };
+
+        let selectedProduct = null;
+        let selectedCustomization = null;
+        let currentLanguage = 'en';
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial language
+            setLanguage('en');
+            
+            // Add event listeners for language switcher
+            document.querySelectorAll('.lang-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    setLanguage(lang);
+                });
+            });
+            
+            // Add event listeners for product selection
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const productType = this.getAttribute('data-product');
+                    selectedProduct = productType;
+                    showCustomizationShowcase(productType);
+                });
+            });
+            
+            // Add event listeners for back buttons
+            document.getElementById('back-to-products').addEventListener('click', function() {
+                document.getElementById('customization-showcase').classList.remove('active');
+                selectedProduct = null;
+            });
+
+            document.getElementById('back-to-customization').addEventListener('click', function() {
+                document.getElementById('order-form').classList.remove('active');
+                selectedCustomization = null;
+            });
+            
+            // Add event listeners for form submissions
+            document.getElementById('product-order-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleOrderFormSubmission(this);
+            });
+            
+            document.querySelector('#contact form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleContactFormSubmission(this);
+            });
+            
+            // Add event listeners for customization option changes
+            document.getElementById('map-size').addEventListener('change', function() {
+                if (selectedProduct && selectedCustomization) {
+                    updateOrderSummary(productData[selectedProduct], selectedCustomization);
+                }
+            });
+
+            document.getElementById('map-frame').addEventListener('change', function() {
+                if (selectedProduct && selectedCustomization) {
+                    updateOrderSummary(productData[selectedProduct], selectedCustomization);
+                }
+            });
+        });
+
+        // Language Management
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active language button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Update product preview if a product is selected
+            if (selectedProduct) {
+                const product = productData[selectedProduct];
+                document.getElementById('product-preview-name').textContent = product.name[lang];
+                document.getElementById('product-preview-desc').textContent = product.description[lang];
+                
+                // Update customization options
+                updateCustomizationGrid(selectedProduct);
+            }
+        }
+
+        // Product Selection and Customization
+        function showCustomizationShowcase(productType) {
+            const product = productData[productType];
+            
+            // Update showcase header
+            document.getElementById('showcase-title').textContent = translations[currentLanguage]['customization.title'];
+            
+            // Update product preview
+            document.getElementById('product-preview-icon').textContent = product.icon;
+            document.getElementById('product-preview-icon').className = `preview-visual ${product.previewClass}`;
+            document.getElementById('product-preview-name').textContent = product.name[currentLanguage];
+            document.getElementById('product-preview-desc').textContent = product.description[currentLanguage];
+            
+            // Update customization grid
+            updateCustomizationGrid(productType);
+            
+            // Show showcase
+            document.getElementById('customization-showcase').classList.add('active');
+            document.getElementById('customization-showcase').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function updateCustomizationGrid(productType) {
+            const product = productData[productType];
+            const grid = document.getElementById('customization-grid');
+            grid.innerHTML = '';
+            
+            product.customizations.forEach(customization => {
+                const card = document.createElement('div');
+                card.className = `customization-card ${customization.status === 'available' ? 'available' : 'coming-soon'}`;
+                card.setAttribute('data-customization', customization.id);
+                
+                const displayPrice = customization.price === 0 ? 
+                    translations[currentLanguage]['customization.frames.none'].split(' - ')[0] : 
+                    `+ ${customization.price.toLocaleString()} ${currentLanguage === 'en' ? 'AMD' : 'ԴՐ'}`;
+                
+                card.innerHTML = `
+                    <span class="status-badge status-${customization.status}">
+                        ${customization.status === 'available' ? 
+                            (currentLanguage === 'en' ? 'Available' : 
+                             currentLanguage === 'hy' ? 'Հասանելի' : 'Доступно') : 
+                            (currentLanguage === 'en' ? 'Coming Soon' : 
+                             currentLanguage === 'hy' ? 'Շուտով' : 'Скоро')}
+                    </span>
+                    <div class="customization-icon">${customization.icon}</div>
+                    <h3 class="customization-title">${customization.name[currentLanguage]}</h3>
+                    <p class="customization-description">${customization.description[currentLanguage]}</p>
+                    <div class="price-tag">${displayPrice}</div>
+                    <button class="action-btn">
+                        ${customization.action[currentLanguage]}
+                    </button>
+                `;
+                
+                grid.appendChild(card);
+                
+                // Add click handler for available customizations
+                if (customization.status === 'available') {
+                    card.addEventListener('click', function() {
+                        selectedCustomization = customization;
+                        updateOrderSummary(product, customization);
+                        showOrderForm(product, customization);
+                    });
+                } else {
+                    card.querySelector('.action-btn').addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        alert(translations[currentLanguage]['customization.comingSoon'] || 
+                              'We\'ll notify you when this becomes available!');
+                    });
+                }
+            });
+        }
+
+        function updateOrderSummary(product, customization) {
+            const sizeSelect = document.getElementById('map-size');
+            const frameSelect = document.getElementById('map-frame');
+            const dateInput = document.getElementById('map-date');
+            const locationSelect = document.getElementById('map-location');
+            
+            // Extract prices from select options
+            const sizePrice = parseInt(sizeSelect.options[sizeSelect.selectedIndex].text.match(/\d+/)[0]) * 1000;
+            const framePrice = frameSelect.value === 'none' ? 0 : 
+                parseInt(frameSelect.options[frameSelect.selectedIndex].text.match(/\d+/)[0]) * 1000;
+            
+            const totalPrice = product.basePrice + customization.price + sizePrice + framePrice + 2000; // +2000 for delivery
+            
+            // Update order summary
+            document.getElementById('summary-product').textContent = product.name[currentLanguage];
+            document.getElementById('summary-product-price').textContent = 
+                `${(product.basePrice + customization.price).toLocaleString()} ${currentLanguage === 'en' ? 'AMD' : 'ԴՐ'}`;
+            
+            if (frameSelect.value !== 'none') {
+                const frameText = frameSelect.options[frameSelect.selectedIndex].text.split(' - ')[0];
+                document.getElementById('summary-frame').textContent = frameText;
+                document.getElementById('summary-frame-price').textContent = `${framePrice.toLocaleString()} ${currentLanguage === 'en' ? 'AMD' : 'ԴՐ'}`;
+            } else {
+                document.getElementById('summary-frame').textContent = 
+                    currentLanguage === 'en' ? 'No Frame' : 
+                    currentLanguage === 'hy' ? 'Առանց Շրջանակի' : 'Без Рамы';
+                document.getElementById('summary-frame-price').textContent = `0 ${currentLanguage === 'en' ? 'AMD' : 'ԴՐ'}`;
+            }
+            
+            document.getElementById('summary-total').textContent = `${totalPrice.toLocaleString()} ${currentLanguage === 'en' ? 'AMD' : 'ԴՐ'}`;
+            
+            // Set hidden form values
+            document.getElementById('form-product-type').value = selectedProduct;
+            document.getElementById('form-total-price').value = totalPrice;
+            document.getElementById('form-size').value = sizeSelect.options[sizeSelect.selectedIndex].text;
+            document.getElementById('form-frame').value = frameSelect.options[frameSelect.selectedIndex].text;
+            document.getElementById('form-date').value = dateInput.value;
+            document.getElementById('form-location').value = locationSelect.options[locationSelect.selectedIndex].text;
+        }
+
+        function showOrderForm(product, customization) {
+            updateOrderSummary(product, customization);
+            
+            // Show form
+            document.getElementById('order-form').classList.add('active');
+            document.getElementById('order-form').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Form Handling with Formspree
+        function handleOrderFormSubmission(form) {
+            if (!selectedProduct || !selectedCustomization) {
+                alert(translations[currentLanguage]['order.form.error'] || 'Please select a product and customization first');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = translations[currentLanguage]['order.form.sending'] || 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Use Formspree to submit the form
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Show success message
+                    document.getElementById('form-success').style.display = 'block';
+                    
+                    // Reset form and UI
+                    form.reset();
+                    setTimeout(() => {
+                        document.getElementById('order-form').classList.remove('active');
+                        document.getElementById('customization-showcase').classList.remove('active');
+                        document.getElementById('form-success').style.display = 'none';
+                        selectedProduct = null;
+                        selectedCustomization = null;
+                    }, 3000);
+                } else {
+                    alert(translations[currentLanguage]['order.form.error'] || 'There was an error submitting your order. Please try again.');
+                }
+            })
+            .catch(error => {
+                alert(translations[currentLanguage]['order.form.error'] || 'There was an error submitting your order. Please try again.');
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+
+        function handleContactFormSubmission(form) {
+            // Show loading state
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = translations[currentLanguage]['contact.form.sending'] || 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Use Formspree to submit the form
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert(translations[currentLanguage]['contact.form.success'] || 'Thank you for your message! We will get back to you soon.');
+                    form.reset();
+                } else {
+                    alert(translations[currentLanguage]['contact.form.error'] || 'There was an error sending your message. Please try again.');
+                }
+            })
+            .catch(error => {
+                alert(translations[currentLanguage]['contact.form.error'] || 'There was an error sending your message. Please try again.');
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
