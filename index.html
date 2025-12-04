@@ -38,7 +38,7 @@
             padding: 0 2rem;
         }
 
-        /* Navigation */
+        /* Navigation - FIXED FOR MOBILE */
         nav {
             position: fixed;
             top: 0;
@@ -85,10 +85,11 @@
             color: var(--color-soft-gold);
         }
 
-        /* Language Switcher */
+        /* Language Switcher - SEPARATED FROM NAV-LINKS */
         .language-switcher {
             display: flex;
             gap: 0.5rem;
+            margin-left: 1rem;
         }
 
         .lang-btn {
@@ -106,6 +107,16 @@
         .lang-btn:hover, .lang-btn.active {
             background: var(--color-nebula);
             color: var(--color-starlight);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--color-starlight);
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
         /* Hero Section */
@@ -624,10 +635,50 @@
             text-align: center;
         }
 
-        /* Responsive Design */
+        /* Mobile Navigation Menu */
+        .mobile-nav-menu {
+            display: none;
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: var(--color-starry-night);
+            padding: 1rem;
+            border-bottom: 1px solid rgba(106, 76, 147, 0.3);
+            z-index: 999;
+        }
+
+        .mobile-nav-menu.active {
+            display: block;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .mobile-nav-links a {
+            color: var(--color-starlight);
+            text-decoration: none;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(106, 76, 147, 0.2);
+        }
+
+        /* Responsive Design - FIXED FOR MOBILE */
         @media (max-width: 768px) {
-            .nav-links {
+            .nav-links a:not(.language-switcher a) {
                 display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+                margin-left: 1rem;
+            }
+            
+            .language-switcher {
+                display: flex;
+                margin-left: auto;
             }
             
             .product-preview {
@@ -651,6 +702,46 @@
             .about-text {
                 padding-right: 0;
             }
+            
+            .order-form,
+            .contact-form {
+                padding: 1.5rem;
+            }
+            
+            .hero {
+                padding: 6rem 0 3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lang-btn {
+                padding: 0.2rem 0.5rem;
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
@@ -659,18 +750,34 @@
     <nav>
         <div class="container nav-container">
             <a href="#" class="logo">Mon<span>Etoile</span></a>
+            
+            <!-- Desktop Navigation Links -->
             <div class="nav-links">
                 <a href="#products" data-i18n="nav.products">Products</a>
                 <a href="#about" data-i18n="nav.about">About</a>
                 <a href="#contact" data-i18n="nav.contact">Contact</a>
-                <div class="language-switcher">
-                    <button class="lang-btn active" data-lang="en">ENG</button>
-                    <button class="lang-btn" data-lang="hy">ՀԱՅ</button>
-                    <button class="lang-btn" data-lang="ru">РУС</button>
-                </div>
             </div>
+            
+            <!-- Language Switcher - Now Separate -->
+            <div class="language-switcher">
+                <button class="lang-btn active" data-lang="en">ENG</button>
+                <button class="lang-btn" data-lang="hy">ՀԱՅ</button>
+                <button class="lang-btn" data-lang="ru">РУС</button>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle">☰</button>
         </div>
     </nav>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="mobile-nav-menu" id="mobile-nav-menu">
+        <div class="mobile-nav-links">
+            <a href="#products" data-i18n="nav.products">Products</a>
+            <a href="#about" data-i18n="nav.about">About</a>
+            <a href="#contact" data-i18n="nav.contact">Contact</a>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="hero">
@@ -803,7 +910,7 @@
                 </div>
             </div>
             
-            <form id="product-order-form" action="https://formspree.io/f/mvgjylpg" method="POST">
+            <form id="product-order-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
                 <input type="hidden" name="product_type" id="form-product-type">
                 <input type="hidden" name="total_price" id="form-total-price">
                 <input type="hidden" name="size" id="form-size">
@@ -937,7 +1044,7 @@
             <p class="lead text-center" data-i18n="contact.subtitle">Have questions? We'd love to hear from you</p>
             
             <div class="contact-form">
-                <form action="https://formspree.io/f/mvgjylpg" method="POST">
+                <form action="https://formspree.io/f/YOUR_CONTACT_FORMSPREE_ID" method="POST">
                     <div class="form-group">
                         <label for="contact-name" data-i18n="contact.form.name">Your Name</label>
                         <input type="text" id="contact-name" name="name" required placeholder="Your Name">
@@ -1001,7 +1108,7 @@
     </footer>
 
     <script>
-        // Language Translations
+        // Language Translations (same as before, but kept for completeness)
         const translations = {
             en: {
                 // Navigation
@@ -1347,7 +1454,7 @@
             }
         };
 
-        // Product Data with Pricing in AMD
+        // Product Data with Pricing in AMD (same as before)
         const productData = {
             'star-map': {
                 name: {
@@ -1486,6 +1593,25 @@
                 });
             });
             
+            // Add event listeners for mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileNavMenu = document.getElementById('mobile-nav-menu');
+            
+            if (mobileMenuToggle && mobileNavMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    mobileNavMenu.classList.toggle('active');
+                    this.textContent = mobileNavMenu.classList.contains('active') ? '✕' : '☰';
+                });
+                
+                // Close mobile menu when clicking on a link
+                document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileNavMenu.classList.remove('active');
+                        mobileMenuToggle.textContent = '☰';
+                    });
+                });
+            }
+            
             // Add event listeners for product selection
             document.querySelectorAll('.product-card').forEach(card => {
                 card.addEventListener('click', function() {
@@ -1527,6 +1653,20 @@
             document.getElementById('map-frame').addEventListener('change', function() {
                 if (selectedProduct && selectedCustomization) {
                     updateOrderSummary(productData[selectedProduct], selectedCustomization);
+                }
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const mobileNavMenu = document.getElementById('mobile-nav-menu');
+                const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+                
+                if (mobileNavMenu && mobileNavMenu.classList.contains('active') &&
+                    !mobileNavMenu.contains(event.target) &&
+                    event.target !== mobileMenuToggle &&
+                    !mobileMenuToggle.contains(event.target)) {
+                    mobileNavMenu.classList.remove('active');
+                    mobileMenuToggle.textContent = '☰';
                 }
             });
         });
@@ -1587,6 +1727,14 @@
             document.getElementById('customization-showcase').scrollIntoView({
                 behavior: 'smooth'
             });
+            
+            // Close mobile menu if open
+            const mobileNavMenu = document.getElementById('mobile-nav-menu');
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            if (mobileNavMenu && mobileNavMenu.classList.contains('active')) {
+                mobileNavMenu.classList.remove('active');
+                mobileMenuToggle.textContent = '☰';
+            }
         }
 
         function updateCustomizationGrid(productType) {
@@ -1632,8 +1780,9 @@
                 } else {
                     card.querySelector('.action-btn').addEventListener('click', function(e) {
                         e.stopPropagation();
-                        alert(translations[currentLanguage]['customization.comingSoon'] || 
-                              'We\'ll notify you when this becomes available!');
+                        alert(currentLanguage === 'en' ? 'We\'ll notify you when this becomes available!' :
+                              currentLanguage === 'hy' ? 'Մենք Ձեզ կտեղեկացնենք, երբ այն հասանելի դառնա:' :
+                              'Мы сообщим вам, когда это станет доступно!');
                     });
                 }
             });
@@ -1687,19 +1836,31 @@
             document.getElementById('order-form').scrollIntoView({
                 behavior: 'smooth'
             });
+            
+            // Close mobile menu if open
+            const mobileNavMenu = document.getElementById('mobile-nav-menu');
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            if (mobileNavMenu && mobileNavMenu.classList.contains('active')) {
+                mobileNavMenu.classList.remove('active');
+                mobileMenuToggle.textContent = '☰';
+            }
         }
 
         // Form Handling with Formspree
         function handleOrderFormSubmission(form) {
             if (!selectedProduct || !selectedCustomization) {
-                alert(translations[currentLanguage]['order.form.error'] || 'Please select a product and customization first');
+                alert(currentLanguage === 'en' ? 'Please select a product and customization first' :
+                      currentLanguage === 'hy' ? 'Նախ ընտրեք ապրանք և հարմարեցում' :
+                      'Сначала выберите продукт и настройку');
                 return;
             }
             
             // Show loading state
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
-            submitBtn.textContent = translations[currentLanguage]['order.form.sending'] || 'Sending...';
+            submitBtn.textContent = currentLanguage === 'en' ? 'Sending...' :
+                                   currentLanguage === 'hy' ? 'Ուղարկվում է...' :
+                                   'Отправка...';
             submitBtn.disabled = true;
             
             // Use Formspree to submit the form
@@ -1725,11 +1886,15 @@
                         selectedCustomization = null;
                     }, 3000);
                 } else {
-                    alert(translations[currentLanguage]['order.form.error'] || 'There was an error submitting your order. Please try again.');
+                    alert(currentLanguage === 'en' ? 'There was an error submitting your order. Please try again.' :
+                          currentLanguage === 'hy' ? 'Ձեր պատվերը ուղարկելիս սխալ է տեղի ունեցել: Խնդրում ենք նորից փորձել:' :
+                          'Произошла ошибка при отправке вашего заказа. Пожалуйста, попробуйте еще раз.');
                 }
             })
             .catch(error => {
-                alert(translations[currentLanguage]['order.form.error'] || 'There was an error submitting your order. Please try again.');
+                alert(currentLanguage === 'en' ? 'There was an error submitting your order. Please try again.' :
+                      currentLanguage === 'hy' ? 'Ձեր պատվերը ուղարկելիս սխալ է տեղի ունեցել: Խնդրում ենք նորից փորձել:' :
+                      'Произошла ошибка при отправке вашего заказа. Пожалуйста, попробуйте еще раз.');
             })
             .finally(() => {
                 // Reset button state
@@ -1742,7 +1907,9 @@
             // Show loading state
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.textContent;
-            submitBtn.textContent = translations[currentLanguage]['contact.form.sending'] || 'Sending...';
+            submitBtn.textContent = currentLanguage === 'en' ? 'Sending...' :
+                                   currentLanguage === 'hy' ? 'Ուղարկվում է...' :
+                                   'Отправка...';
             submitBtn.disabled = true;
             
             // Use Formspree to submit the form
@@ -1755,14 +1922,20 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert(translations[currentLanguage]['contact.form.success'] || 'Thank you for your message! We will get back to you soon.');
+                    alert(currentLanguage === 'en' ? 'Thank you for your message! We will get back to you soon.' :
+                          currentLanguage === 'hy' ? 'Շնորհակալություն Ձեր հաղորդագրության համար: Մենք կկապնվենք Ձեզ հետ շուտով:' :
+                          'Спасибо за ваше сообщение! Мы свяжемся с вами в ближайшее время.');
                     form.reset();
                 } else {
-                    alert(translations[currentLanguage]['contact.form.error'] || 'There was an error sending your message. Please try again.');
+                    alert(currentLanguage === 'en' ? 'There was an error sending your message. Please try again.' :
+                          currentLanguage === 'hy' ? 'Ձեր հաղորդագրությունը ուղարկելիս սխալ է տեղի ունեցել: Խնդրում ենք նորից փորձել:' :
+                          'Произошла ошибка при отправке вашего сообщения. Пожалуйста, попробуйте еще раз.');
                 }
             })
             .catch(error => {
-                alert(translations[currentLanguage]['contact.form.error'] || 'There was an error sending your message. Please try again.');
+                alert(currentLanguage === 'en' ? 'There was an error sending your message. Please try again.' :
+                      currentLanguage === 'hy' ? 'Ձեր հաղորդագրությունը ուղարկելիս սխալ է տեղի ունեցել: Խնդրում ենք նորից փորձել:' :
+                      'Произошла ошибка при отправке вашего сообщения. Пожалуйста, попробуйте еще раз.');
             })
             .finally(() => {
                 // Reset button state
@@ -1781,6 +1954,14 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                    
+                    // Close mobile menu if open
+                    const mobileNavMenu = document.getElementById('mobile-nav-menu');
+                    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+                    if (mobileNavMenu && mobileNavMenu.classList.contains('active')) {
+                        mobileNavMenu.classList.remove('active');
+                        mobileMenuToggle.textContent = '☰';
+                    }
                 }
             });
         });
